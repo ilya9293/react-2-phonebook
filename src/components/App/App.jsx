@@ -1,30 +1,36 @@
 import s from './App.module.css';
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
     contacts: [],
+    filter: '',
     name: '',
-  };
-
-  handleChange = e => {
-    this.setState({ name: e.target.value });
+    number: '',
   };
 
   handleSubmit = e => {
-    const { name } = this.state;
+    const { name, number } = this.state;
     e.preventDefault();
-    this.setState(prevState => ({ contacts: [...(prevState.contacts + name)] }));
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { name, number, id: nanoid() }],
+    }));
     this.reset();
-    console.log(this.state.contacts);
   };
 
   reset = () => {
-    this.setState({ name: ' ' });
+    this.setState({ name: '', number: '' });
+  };
+
+  handleChange = e => {
+    const option = e.target.name;
+    this.setState({ [option]: e.target.value });
   };
 
   render() {
-    const { name } = this.state;
+    const { name, contacts, number, filter } = this.state;
+
     return (
       <div className={s.container}>
         <h2 className={s.title}>Phonebook</h2>
@@ -41,16 +47,37 @@ class App extends Component {
               onChange={this.handleChange}
             />
           </label>
+          <label>
+            Number
+            <input
+              type="tel"
+              name="number"
+              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+              value={number}
+              onChange={this.handleChange}
+            />
+          </label>
           <button type="submit" className={s.button}>
             Add contact
           </button>
         </form>
 
         <h2 className={s.title}>Contacts</h2>
+        <label className={s.filter}>
+          Find contacts by name
+          <input type="text" name="filter" value={filter} onChange={this.handleChange} />
+        </label>
+
         <ul className={s.list}>
-          <li>
-            <p className={s.contact}>Posie Simoson</p>
-          </li>
+          {contacts.map(({ id, name, number }) => {
+            return (
+              <li key={id}>
+                <p className={s.contact}>{`${name}: ${number}`}</p>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
