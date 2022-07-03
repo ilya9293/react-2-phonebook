@@ -4,10 +4,24 @@ import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
     filter: '',
     name: '',
     number: '',
+  };
+
+  handleFilter = e => {
+    this.setState({ filter: e.target.value });
+    this.setState = prevState => {
+      return {
+        contacts: prevState.contacts.filter(contact => contact.name.includes(this.state.filter)),
+      };
+    };
   };
 
   handleSubmit = e => {
@@ -67,7 +81,7 @@ class App extends Component {
         <h2 className={s.title}>Contacts</h2>
         <label className={s.filter}>
           Find contacts by name
-          <input type="text" name="filter" value={filter} onChange={this.handleChange} />
+          <input type="text" name="filter" value={filter} onChange={this.handleFilter} />
         </label>
 
         <ul className={s.list}>
