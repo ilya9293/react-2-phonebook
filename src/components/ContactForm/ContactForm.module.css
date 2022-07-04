@@ -1,0 +1,41 @@
+.form {
+  width: 400px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.form label {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.form input {
+  margin-top: 10px;
+  display: block;
+  border-radius: 1px;
+  outline: 1px solid black;
+  border: none;
+}
+
+.form input:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0px 0px 8px #0fa0e4;
+}
+
+.form input:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.button {
+  margin-top: 25px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  padding: 5px;
+  box-shadow: 0px 0px 2px #4d3737;
+}
+
+button:focus {
+  box-shadow: 0px 0px 4px #4d3737;
+}
