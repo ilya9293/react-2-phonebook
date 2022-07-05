@@ -1,6 +1,6 @@
 import s from './ContactForm.module.css';
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 class ContactForm extends Component {
   state = {
@@ -8,28 +8,26 @@ class ContactForm extends Component {
     number: '',
   };
 
-  handleSubmit = e => {
-    const { name, number } = this.state;
-    e.preventDefault();
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { name, number, id: nanoid() }],
-    }));
-    this.reset();
+  handleChange = e => {
+    const option = e.target.name;
+    this.setState({ [option]: e.target.value });
   };
 
   reset = () => {
     this.setState({ name: '', number: '' });
   };
 
-  handleChange = e => {
-    const option = e.target.name;
-    this.setState({ [option]: e.target.value });
-  };
-
   render() {
     const { name, number } = this.state;
     return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
+      <form
+        className={s.form}
+        onSubmit={e => {
+          e.preventDefault();
+          this.props.handleSubmit(name, number);
+          this.reset();
+        }}
+      >
         <label>
           Name
           <input
@@ -61,5 +59,9 @@ class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+};
 
 export default ContactForm;

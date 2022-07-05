@@ -1,6 +1,8 @@
 import s from './App.module.css';
 import { Component } from 'react';
 import ContactForm from '../ContactForm';
+import { nanoid } from 'nanoid';
+import Filter from '../Filter';
 
 class App extends Component {
   state = {
@@ -23,19 +25,22 @@ class App extends Component {
     this.setState({ [option]: e.target.value });
   };
 
+  handleSubmit = (name, number) => {
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { name, number, id: nanoid() }],
+    }));
+  };
+
   render() {
-    const { name, number, filter } = this.state;
+    const { filter } = this.state;
 
     return (
       <div className={s.container}>
         <h2 className={s.title}>Phonebook</h2>
-        <Component />
-
+        <ContactForm handleSubmit={this.handleSubmit} />
         <h2 className={s.title}>Contacts</h2>
-        <label className={s.filter}>
-          Find contacts by name
-          <input type="text" name="filter" value={filter} onChange={this.handleChange} />
-        </label>
+
+        <Filter filter={filter} handleChange={this.handleChange} />
 
         <ul className={s.list}>
           {this.handleFilter().map(({ id, name, number }) => {

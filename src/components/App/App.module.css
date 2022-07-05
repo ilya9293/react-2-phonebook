@@ -11,22 +11,3 @@
   font-size: 20px;
   font-weight: 500;
 }
-
-.filter {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.filter input {
-  display: block;
-  margin-top: 5px;
-  border-radius: 1px;
-  outline: 1px solid black;
-  border: none;
-}
-
-.filter input:focus {
-  outline: none;
-  border: none;
-  box-shadow: 0px 0px 8px #0fa0e4;
-}
