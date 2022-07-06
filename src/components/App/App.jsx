@@ -3,6 +3,7 @@ import { Component } from 'react';
 import ContactForm from '../ContactForm';
 import { nanoid } from 'nanoid';
 import Filter from '../Filter';
+import ContactList from '../ContactList';
 
 class App extends Component {
   state = {
@@ -41,16 +42,7 @@ class App extends Component {
         <h2 className={s.title}>Contacts</h2>
 
         <Filter filter={filter} handleChange={this.handleChange} />
-
-        <ul className={s.list}>
-          {this.handleFilter().map(({ id, name, number }) => {
-            return (
-              <li key={id}>
-                <p className={s.contact}>{`${name}: ${number}`}</p>
-              </li>
-            );
-          })}
-        </ul>
+        <ContactList handleFilter={this.handleFilter} />
       </div>
     );
   }
