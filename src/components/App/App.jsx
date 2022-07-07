@@ -16,6 +16,11 @@ class App extends Component {
     filter: '',
   };
 
+  deleteContact = id => {
+    const filteredContacts = this.state.contacts.filter(contact => contact.id !== id);
+    this.setState({ contacts: [...filteredContacts] });
+  };
+
   handleFilter = () => {
     const { contacts, filter } = this.state;
     return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
@@ -27,6 +32,14 @@ class App extends Component {
   };
 
   handleSubmit = (name, number) => {
+    const isName = this.state.contacts.some(
+      contact => name.toLowerCase() === contact.name.toLowerCase(),
+    );
+    if (isName) {
+      alert(`${name} is alredy in contacts`);
+      return;
+    }
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, { name, number, id: nanoid() }],
     }));
@@ -42,7 +55,7 @@ class App extends Component {
         <h2 className={s.title}>Contacts</h2>
 
         <Filter filter={filter} handleChange={this.handleChange} />
-        <ContactList handleFilter={this.handleFilter} />
+        <ContactList handleFilter={this.handleFilter} deleteContact={this.deleteContact} />
       </div>
     );
   }
