@@ -47,6 +47,7 @@ class App extends Component {
 
   render() {
     const { filter } = this.state;
+    const filteredContacts = this.handleFilter();
 
     return (
       <div className={s.container}>
@@ -55,7 +56,9 @@ class App extends Component {
         <h2 className={s.title}>Contacts</h2>
 
         <Filter filter={filter} handleChange={this.handleChange} />
-        <ContactList handleFilter={this.handleFilter} deleteContact={this.deleteContact} />
+        {!!filteredContacts.length && (
+          <ContactList handleFilter={filteredContacts} deleteContact={this.deleteContact} />
+        )}
       </div>
     );
   }
