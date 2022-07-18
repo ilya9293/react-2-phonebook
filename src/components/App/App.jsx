@@ -4,6 +4,9 @@ import ContactForm from '../ContactForm';
 import { nanoid } from 'nanoid';
 import Filter from '../Filter';
 import ContactList from '../ContactList';
+import * as storage from '../../services/localStorage';
+
+const CONTACTSLOCALE = 'contacts';
 
 class App extends Component {
   state = {
@@ -15,6 +18,22 @@ class App extends Component {
     ],
     filter: '',
   };
+
+  componentDidMount() {
+    //  const parseData = JSON.parse(localStorage.getItem(CONTACTSLOCALE));
+    const parseData = storage.get(CONTACTSLOCALE);
+    if (parseData) {
+      this.setState({ contacts: storage.get(CONTACTSLOCALE) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const stateContacts = this.state.contacts;
+    if (prevState.contacts !== stateContacts) {
+      // localStorage.setItem(CONTACTSLOCALE, JSON.stringify(stateContacts));
+      storage.save(CONTACTSLOCALE, stateContacts);
+    }
+  }
 
   deleteContact = id => {
     const filteredContacts = this.state.contacts.filter(contact => contact.id !== id);
